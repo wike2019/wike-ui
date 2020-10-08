@@ -68,6 +68,8 @@ module.exports = merge(
         tsconfig: resolve("tsconfig.json"),
         cacheRoot: path.resolve(__dirname, "node_modules/.rts2_cache"),
         exclude: ["**/__tests__", "test-dts"],
+        module: "ESNext",
+        check: false
       }),
     ],
     treeshake: {

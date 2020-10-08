@@ -14,7 +14,7 @@
     align-items: center;
     flex-direction: column;
     background: @background;
-
+    .nav-markdown-toolbars{width:100%;display: block}
     &.border {
         border: 1px solid @border;
     }
@@ -104,7 +104,7 @@
         }
 
         span {
-            font-size: 18px;
+            font-size: 16px;
             color: #999;
             cursor: pointer;
             display: block;
@@ -145,7 +145,7 @@
             span {
                 padding: 0 8px;
                 transition: all 0.3s;
-                font-size: 18px;
+                font-size: 18px!important;
                 display: inline-block;
                 line-height: 32px;
 
@@ -196,6 +196,7 @@
                         display: block;
                         height: 30px;
                         width: 30px;
+                        margin-left:10px;
                         line-height: 30px;
                         overflow: hidden;
 
@@ -612,12 +613,12 @@ ul.shift {
     }
 }
 
-/deep/ .markdown-preview {
+ .markdown-preview {
     flex: 1;
     overflow: hidden;
     overflow-y: scroll;
     background: #fff;
-    padding: 20px 12px !important;
+    padding: 5px 12px !important;
     font-family: 'Tahoma For Number', 'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
     * {
@@ -889,3 +890,32 @@ ul.shift {
     }
 }
 
+.tools_title{font-weight: bold;margin:0 10px;}
+
+
+.download{
+    position: relative;
+    .hover_show{font-size: 14px;
+        padding: 10px;
+        margin:2px;
+        margin-top:-2px;
+        width:100%;
+        border-radius: 6px;
+        min-width: 160px;
+        color: #bbb;
+        line-height: 30px;
+        display: none;
+        position: absolute;
+        z-index: 9999;
+        background:#444;
+        margin-top:5px;
+        i{
+            margin-top:3px;
+            vertical-align: middle;
+            margin-right:5px;
+        }
+    }
+    &:hover{
+        .hover_show{display: block}
+    }
+}

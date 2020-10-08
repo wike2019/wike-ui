@@ -9,12 +9,11 @@ const pathResolve = (pathStr: string) => {
 const config: UserConfig = {
   alias: {
     "/@/": pathResolve("./examples/src"),
-    vue: "vue/dist/vue.esm-bundler.js",
   },
   outDir: pathResolve("./examples/dist"),
-  plugins: [
-
-  ],
+  plugins: [],
+  optimizeDeps:{
+    include:["/node_modules/codemirror/lib/codemirror.less"]
+  },
 };
-
 module.exports = config;

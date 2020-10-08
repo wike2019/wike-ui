@@ -9,6 +9,20 @@ const routes: RouteRecordRaw[] = [
       return import('/@/views/Home/Home.tsx')
     },
   },
+  {
+    path: "/icon",
+    name: "icon",
+    component: () => {
+      return import('/@/views/Icon/Icon.tsx')
+    },
+  },
+  {
+    path: "/md",
+    name: "md",
+    component: () => {
+      return import('/@/views/Home/Home.tsx')
+    },
+  },
 ];
 
 const router = createRouter({

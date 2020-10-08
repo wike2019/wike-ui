@@ -1,5 +1,4 @@
 import {defineComponent} from "vue"
-import "./font-awesome/css/font-awesome.min.css"
 const WIcon = defineComponent({
   name: "WIcon",
   props: {
@@ -8,9 +7,9 @@ const WIcon = defineComponent({
       required:true
     }
   },
-  setup (props) {
+  setup (props,context) {
     return () => (
-      <i class={`fa ${props.name}`} aria-hidden="true" />
+      <span class={`fa ${props.name}`} aria-hidden="true" />
     )
   }
 })

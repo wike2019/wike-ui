@@ -1,7 +1,10 @@
-import { defineComponent, ref, onMounted, computed, watch } from "vue";
+import { defineComponent, ref, onMounted, computed, watch,nextTick ,onUnmounted} from "vue";
 
+// @ts-ignore
 import codemirror from "codemirror";
-import "codemirror/lib/codemirror.css";
+import marked from "./lib/lib";
+import WTools from "./lib/components/tools";
+
 const codemirrorConfig = {
   tabSize: 4,
   styleActiveLine: true,
@@ -16,8 +19,13 @@ const codemirrorConfig = {
 
 const WMd = defineComponent({
   name: "WMd",
+  components:{
+    WTools
+  },
   props: {
     value: {
+
+
       type: [String, Number],
       default: "",
     },
@@ -89,24 +97,40 @@ const WMd = defineComponent({
     const indexLenth = ref(1);
     const scrollSide = ref("");
     const scrolling = ref(true);
+    const instance = ref(null);
+    const timeid=null
     const eventConfig = {
-      imageUpload: "on-upload-image",
+      imageUpload: "onUploadImage",
       changeData: "change_data",
       save: "on-save",
       ready: "on-ready",
     };
 
     //事件
-    const mousescrollSide = (left) => {
-      //htmldata.value = "<div>111111111</div>";
+    const mousescrollSide = (side) => {
+       scrollSide.value = side;
     };
-    const previewScroll = () => {};
+    const previewScroll = () => {
+      if (scrolling.value && scrollSide.value === 'right') {
+        const preview =previewview.value;
+        if(!preview){
+          return
+        }
+        const contentHeight = preview.offsetHeight;
+        const previewScrollHeight = preview.scrollHeight;
+        const previewScrollTop = preview.scrollTop;
+        const scrollTop = parseInt((previewScrollTop * (editorScrollHeigh.value - contentHeight)) / (previewScrollHeight - contentHeight), 0);
+        editor.value.scrollTo(0, scrollTop);
+      }
+    };
 
     //计算属性
     const showView = computed(() => {
       return preview.value ? preview.value : split.value;
     });
-
+    const  hello=()=>{
+      console.log(11111111111)
+    }
     //render
     const renderEdior = () => {
       return (
@@ -117,7 +141,9 @@ const WMd = defineComponent({
           ref={markdown}
           style={{ width: props.width + "px", height: props.height + "px" }}
         >
+          <WTools onUploadImage={upload_image}  onSetCursor={setCursor} onHello={hello} fullscreen={props.fullscreen}  split={split.value} scrolling={scrolling.value} ref={instance} preview={preview.value}  editor={editor}   lastPos={lastPos.value} value={value.value} exportFileName={props.exportFileName} ></WTools>
           <div class="markdown-content" style={{ background: preview.value ? "fff" : "" }}>
+
             {!preview.value ? (
               ""
             ) : (
@@ -136,20 +162,37 @@ const WMd = defineComponent({
                 onScroll={() => previewScroll()}
                 onMouseenter={() => mousescrollSide("right")}
               >
-                <div ref={previewInner}>444444444</div>
+                <div ref={previewInner}></div>
               </div>
             )}
           </div>
         </div>
       );
     };
+    watch(value, () => {
+      clearTimeout(timeoutId);
+      timeoutId.value = setTimeout(() => {
+
+        let html = marked(value.value, {
+          sanitize: false,
+          ...props.markedOptions
+        }).replace(/href="/gi, 'target="_blank" href="');
+
+        htmldata.value = html;
+        ctx.emit('input', value.value);
+      }, 30);
+    });
+    watch(props.value, (value) => {
+      value.value= value;
+      editor.value.setOption("value", value);
+    });
     watch(htmldata, () => {
       previewInner.value.innerHTML = htmldata.value;
     });
     const renderPreview = () => {
       return (
         <div class="markdown-preview markdown-theme-dark">
-          <div ref="previewInner">333333333333</div>
+          <div ref="previewInner"></div>
         </div>
       );
     };
@@ -169,6 +212,10 @@ const WMd = defineComponent({
           );
         }
       }
+    };
+    const upload_image=(data)=>{
+      //让事件冒泡给
+      ctx.emit(eventConfig.imageUpload, data);
     };
     const handleSave = () => {
       const vmeditor = editor.value;
@@ -197,13 +244,46 @@ const WMd = defineComponent({
         }
       }
     };
-    const listerenKeyupEnter = () => {};
-    const listerenDelete = () => {};
+    const listerenKeyupEnter = (e) => {
+      console.log(instance.value.props)
+      if(!instance.value){
+        return
+      }
+      const {lastInsert} = instance.value;
+      console.log(lastInsert)
+      if (lastInsert) {   //通过对比lastInsert的值 是否属于list内 然后处理 或者数字递增
+        const list = ['-', '- [ ]', '- [x]'];
+        if (list.includes(lastInsert.trim())) {
+          e.preventDefault();
+          instance.value.insertContent('\n' + lastInsert);
+        } else if (/^\d+\.$/.test(lastInsert.trim())) {
+          e.preventDefault();  //数字递增
+          instance.value.insertContent(
+            '\n' + (parseInt(lastInsert, 0) + 1) + '.  '
+          );
+        }
+      }
+    };
+    const listerenDelete = () => {
+      nextTick(() => { //删除lastInsert的值
+        const vmeditor = editor.value;
+        if (!vmeditor) {
+          return;
+        }
+        if (!vmeditor.isClean()) {
+          const value = vmeditor.getValue();
+          if (value.split("\n").pop() === "") {
+             instance.value.lastInsert = "";
+          }
+        }
+      });
+    };
     const addEditorLintener = () => {
       const vmeditor = editor.value;
       if (!vmeditor) {
         return;
       }
+      vmeditor.setSize("auto",props.height);
       vmeditor.on("change", (data) => {
         lastPos.value = vmeditor.getCursor(); //保存编辑器游标
         value.value = vmeditor.getValue(); //更新值
@@ -229,7 +309,14 @@ const WMd = defineComponent({
         }
       });
       vmeditor.on("focus", () => {
-        lastPos.value = vmeditor.getCursor(); //当失去焦点 再点击编辑器 更新此时点击的位置，更新游标
+        try {
+          console.log(11)
+          lastPos.value = vmeditor.getCursor(); //当失去焦点 再点击编辑器 更新此时点击的位置，更新游标
+          console.log(lastPos)
+        }catch (e) {
+
+        }
+
       });
     };
     const createEditor = () => {
@@ -240,16 +327,52 @@ const WMd = defineComponent({
             doc: { height = 0 },
           } = data;
           editorScrollHeight.value = height;
+
         },
         ...codemirrorConfig,
       });
       addEditorLintener();
     };
+    const init = () =>{// 初始化
+      setTimeout(() => {
+        if (props.autoSave) { //如果配置了autoSave则定时保存
+          timeid = setInterval(() => {
+            handleSave();
+          }, props.interval);
+        }
+      }, 20);
+    }
+    const setCursor = (line = 0, ch = 0) =>{// 设置焦点
+
+      const vmeditor = editor.value;
+      if (!vmeditor) {
+        return;
+      }
+      vmeditor.refresh()
+      try {
+        vmeditor.setCursor(line, ch); //游标更新
+        // @ts-ignore
+        vmeditor.focus(); //触发focus 将更新的游标保存到lastPos中
+      }catch (e) {
+        vmeditor.setCursor(0, 0); //游标更新
+        // @ts-ignore
+        vmeditor.focus(); //触发focus 将更新的游标保存到lastPos中
+      }
+
+    }
     onMounted(() => {
+      //console.log(marked)
       createEditor();
+      init()
     });
+    onUnmounted(() => {
+      clearInterval(timeid)
+    });
+
     return () => {
-      return <div>{!props.isPreview ? renderEdior() : renderPreview()}</div>;
+      return <div>
+        {!props.isPreview ? renderEdior() : renderPreview()}
+      </div>;
     };
   },
 });
