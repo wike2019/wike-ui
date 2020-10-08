@@ -150,6 +150,7 @@ const WMd = defineComponent({
               <div
                 class="codemirror"
                 ref={codemirrorview}
+                style={"height:500px"}
                 onMouseenter={() => mousescrollSide("left")}
               ></div>
             )}
@@ -310,9 +311,8 @@ const WMd = defineComponent({
       });
       vmeditor.on("focus", () => {
         try {
-          console.log(11)
           lastPos.value = vmeditor.getCursor(); //当失去焦点 再点击编辑器 更新此时点击的位置，更新游标
-          console.log(lastPos)
+
         }catch (e) {
 
         }
@@ -348,16 +348,16 @@ const WMd = defineComponent({
       if (!vmeditor) {
         return;
       }
-      vmeditor.refresh()
+
       try {
         vmeditor.setCursor(line, ch); //游标更新
         // @ts-ignore
         vmeditor.focus(); //触发focus 将更新的游标保存到lastPos中
       }catch (e) {
-        vmeditor.setCursor(0, 0); //游标更新
-        // @ts-ignore
-        vmeditor.focus(); //触发focus 将更新的游标保存到lastPos中
+      }finally {
+        vmeditor.refresh()
       }
+
 
     }
     onMounted(() => {

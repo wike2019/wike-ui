@@ -71,7 +71,6 @@ function createAcitons(editor,lastPos,lastInsert,emit) {
         6: "######  "
       };
       const {line} = lastPos;
-      console.log(line)
       const selection = editor?.value.getSelection();
       if (selection) {
         actions.insertContent("\n" + titles[level] + selection + "\n");

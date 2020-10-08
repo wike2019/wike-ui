@@ -37,7 +37,8 @@ export default  function  renderJsx(preview,fullscreen,scrolling,split,exportFil
     {
       "tip":"标题1",
       "name":"h1",
-      "action":()=>{action.insertTitle(1)}
+      "action":()=>{
+        action.insertTitle(1)}
     },
     {
       "tip":"标题2",

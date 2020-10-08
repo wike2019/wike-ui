@@ -91,6 +91,6 @@
     "vuex": "4.0.0-beta.4"
   },
   "dependencies": {
-    "codemirror": "^5.58.1"
+    "codemirror": "5.56.0"
   }
 }
