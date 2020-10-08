@@ -1,6 +1,24 @@
 
 
-function createAcitons(editor,lastPos,lastInsert,emit) {
+function createActions(editor,lastPos,lastInsert,emit) {
+  const setCursor = (line = 0, ch = 0) =>{// 设置焦点
+
+    const vmeditor = editor.value;
+    if (!vmeditor) {
+      return;
+    }
+
+    try {
+      vmeditor.setCursor(line, ch); //游标更新
+      // @ts-ignore
+      vmeditor.focus(); //触发focus 将更新的游标保存到lastPos中
+    }catch (e) {
+    }finally {
+      vmeditor.refresh()
+    }
+
+
+  }
    const  actions={
     redo(){
        editor?.value.redo();//重做编辑器
@@ -20,7 +38,7 @@ function createAcitons(editor,lastPos,lastInsert,emit) {
          return;
        } else {
          actions.insertContent("****");
-         emit("setCursor",line, ch + 2)
+         setCursor(line, ch + 2)
          return;
        }
      },
@@ -32,7 +50,7 @@ function createAcitons(editor,lastPos,lastInsert,emit) {
           return;
         } else {
           actions.insertContent("**");
-          emit("setCursor",line, ch +1)
+          setCursor(line, ch +1)
           return;
         }
       },
@@ -44,7 +62,7 @@ function createAcitons(editor,lastPos,lastInsert,emit) {
           return;
         } else {
           actions.insertContent("<u></u>");
-          emit("setCursor",line, ch +3)
+          setCursor(line, ch +3)
           return;
         }
       },
@@ -56,7 +74,7 @@ function createAcitons(editor,lastPos,lastInsert,emit) {
          return;
        } else {
          actions.insertContent("~~~~");
-         emit("setCursor",line, ch +2)
+         setCursor(line, ch +2)
          return;
        }
      },
@@ -78,12 +96,12 @@ function createAcitons(editor,lastPos,lastInsert,emit) {
       } else {
         const title = titles[level];
         if ( editor?.value.isClean()) {  //判断是否是空文档 特殊处理
-          actions.insertContent(title);
-          emit("setCursor",0,title.length)
+          actions.insertContent(title+"\n ");
+          setCursor(0,title.length)
           return;
         } else {
-          actions.insertContent("\n" + title);
-          emit("setCursor",line + 1,title.length)
+          actions.insertContent("\n" + title+"\n ");
+          setCursor(line + 1,title.length)
           return;
         }
       }
@@ -309,4 +327,4 @@ function createAcitons(editor,lastPos,lastInsert,emit) {
 
 
 
-export  default createAcitons;
+export  default createActions;

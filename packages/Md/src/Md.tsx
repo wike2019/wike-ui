@@ -13,7 +13,7 @@ const codemirrorConfig = {
   line: true,
   mode: "text/x-src",
   theme: "default",
-  cursorHeight: 0.8,
+  cursorHeight: 1,
   lineWiseCopyCut: true,
 };
 
@@ -141,7 +141,7 @@ const WMd = defineComponent({
           ref={markdown}
           style={{ width: props.width + "px", height: props.height + "px" }}
         >
-          <WTools onUploadImage={upload_image}  onSetCursor={setCursor} onHello={hello} fullscreen={props.fullscreen}  split={split.value} scrolling={scrolling.value} ref={instance} preview={preview.value}  editor={editor}   lastPos={lastPos.value} value={value.value} exportFileName={props.exportFileName} ></WTools>
+          <WTools onUploadImage={upload_image}   onHello={hello} fullscreen={props.fullscreen}  split={split.value} scrolling={scrolling.value} ref={instance} preview={preview.value}  editor={editor}   lastPos={lastPos.value} value={value.value} exportFileName={props.exportFileName} ></WTools>
           <div class="markdown-content" style={{ background: preview.value ? "fff" : "" }}>
 
             {!preview.value ? (
@@ -342,24 +342,7 @@ const WMd = defineComponent({
         }
       }, 20);
     }
-    const setCursor = (line = 0, ch = 0) =>{// 设置焦点
 
-      const vmeditor = editor.value;
-      if (!vmeditor) {
-        return;
-      }
-
-      try {
-        vmeditor.setCursor(line, ch); //游标更新
-        // @ts-ignore
-        vmeditor.focus(); //触发focus 将更新的游标保存到lastPos中
-      }catch (e) {
-      }finally {
-        vmeditor.refresh()
-      }
-
-
-    }
     onMounted(() => {
       //console.log(marked)
       createEditor();
@@ -368,6 +351,8 @@ const WMd = defineComponent({
     onUnmounted(() => {
       clearInterval(timeid)
     });
+
+
 
     return () => {
       return <div>
