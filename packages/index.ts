@@ -1,8 +1,7 @@
 import { App, Plugin } from "vue";
 import WIcon from "./Icon/index";
-import WMd from "./Md/index";
 
-const components = [WIcon, WMd];
+const components = [WIcon];
 
 const install = function (Vue: App): void {
   components.forEach((component) => {

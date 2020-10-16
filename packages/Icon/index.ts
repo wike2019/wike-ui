@@ -1,4 +1,4 @@
-import WIcon from "./src/Icon";
+import WIcon from "./src/Icon.vue";
 import { App } from "vue";
 
 WIcon.install = (app: App) => {

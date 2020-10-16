@@ -1,5 +1,5 @@
-var fs = require( 'fs' );
-var path = require( 'path' );
+var fs = require( "fs" );
+var path = require( "path" );
 const resolve = function (...args) {
     return path.resolve(__dirname, ...args);
 };
@@ -22,8 +22,8 @@ function copyDir(src, dist, callback) {
                     callback(err)
                 } else {
                     paths.forEach(function(path) {
-                        var _src = src + '/' +path;
-                        var _dist = dist + '/' +path;
+                        var _src = src + "/" +path;
+                        var _dist = dist + "/" +path;
                         fs.stat(_src, function(err, stat) {
                             if(err){
                                 callback(err);
@@ -43,7 +43,7 @@ function copyDir(src, dist, callback) {
         }
     }
 }
-copyDir(resolve("../packages/styles/fonts"),resolve('../dist/fonts'),(err)=>{
+copyDir(resolve("../packages/styles/fonts"),resolve("../dist/fonts"),(err)=>{
     console.log(err)
 })
 

@@ -6,21 +6,21 @@ const routes: RouteRecordRaw[] = [
     path: "/",
     name: "Home",
     component: () => {
-      return import('/@/views/Home/Home.tsx')
+      return import("/@/views/Home/Home.vue")
     },
   },
   {
     path: "/icon",
     name: "icon",
     component: () => {
-      return import('/@/views/Icon/Icon.tsx')
+      return import("/@/views/Icon/Icon.tsx")
     },
   },
   {
     path: "/md",
     name: "md",
     component: () => {
-      return import('/@/views/Home/Home.tsx')
+      return import("/@/views/Home/Home.vue")
     },
   },
 ];

@@ -9,7 +9,7 @@ const uglify = Uglify.uglify;
 import merge from "lodash.merge";
 import pkg from "./package.json";
 
-const extensions = [".ts", ".tsx", ".js", ".json"];
+const extensions = [".ts", ".tsx", ".js", ".json",".vue"];
 
 const resolve = function (...args) {
   return path.resolve(__dirname, ...args);
