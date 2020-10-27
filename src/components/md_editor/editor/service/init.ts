@@ -92,7 +92,7 @@ export function factory(root,height){
 }
 
 
-function listener(lastdata,currentValue,editorScrollHeight){
+function listener(lastdata,currentValue,editorScrollHeight,editorScroll){
     eventBus.on('lastdata',(data)=>{
         lastdata.value=data
     })
@@ -101,6 +101,12 @@ function listener(lastdata,currentValue,editorScrollHeight){
     })
     eventBus.on('height',(data)=>{
         editorScrollHeight.value=data
+    })
+    eventBus.on('scroll',(data)=>{
+        let temp=new Object()
+        temp.height=data.doc.height
+        temp.scrollTop=data.doc.scrollTop
+        editorScroll.value=temp
     })
 }
 export {eventBus,listener}

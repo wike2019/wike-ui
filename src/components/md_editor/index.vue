@@ -213,6 +213,7 @@
         codeShow:false,
         linkShow:false
       });
+      let editorScroll=ref({})
       let sql=ref('')
       let algin=ref("default")
       let col=ref(0)
@@ -250,11 +251,11 @@
             insertContent(str,editor,lastdata)
           },
           insertImage:(str:string)=>{
-            insertImage(str,editor)
+            insertImage(str,editor,lastdata)
           }
         })
-        setEditorValue(props.value,editor)
-        listener(lastdata,currentValue,editorScrollHeight)
+        setEditorValue(props.value,editor,lastdata)
+        listener(lastdata,currentValue,editorScrollHeight,editorScroll)
       })
       function insert($event){
         insertContent($event,editor,lastdata)
@@ -266,6 +267,9 @@
         html.value=toHtml(data)
         ctx.emit('input', {data,html:html.value});
       })
+        watch(editorScroll,(data)=>{
+           markdownScroll()
+        })
       watch(props.value, (value) => {
         setEditorValue(value,editor)
       });
@@ -295,12 +299,10 @@
         }
       };
 
-      const markdownScroll = (data = {}) => {
+      const markdownScroll = () => {
         //编辑器区域滚动
-        if ( data.scrolling && data.scrollSide === "left") {
-          const {
-            doc: { height, scrollTop },
-          } = data;
+        if ( data.scrolling && data.scrollSide =="left") {
+          const { height, scrollTop } =editorScroll.value ;
           const preview = previewRef.value;
           const contentHeight = preview.offsetHeight;
           const previewScrollHeight = preview.scrollHeight;
