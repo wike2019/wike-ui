@@ -1,8 +1,9 @@
-
+let defaultHtml=`
 
 
 
 ## Markdown编辑器简介
+
 一款使用marked和highlight.js,codemirror,inversify,vue3,font-awesome,ant-design-vue开发的markdown编辑器，除常见markdown语法外，支持快捷输入、图片粘贴、全屏编辑、预览等功能。
 
 使用起来简单方便，只需几行代码，即可在你的页面上引入一个markdown编辑器,完全适配vue3，支持语法高亮。同时项目完全基于ddd的开发思想，解构了视图层和领域层。
@@ -10,6 +11,7 @@
 编辑器涵盖了常用的markdown编辑器功能,也可根据需求进行深度定制。易于扩展，代码层次分明，更换视图层对核心领域层没有影响，但还有很多值得改进的地方，这个是我在前端ddd领域驱动开发的一种尝试，追求更好的架构一直是我的目标。希望大家多和我交流。本人邮箱 200569525@qq.com，欢迎提建议。
 
 ## TextBus富文本编辑器简介
+
 TextBus 采用 MVC 设计，将 DOM 数据转换为抽象的 Fragment 对象，并通过自实现 Selection，隔离了浏览器的 Selection 及 Range 对象，使后续功能开发，再也不用关心不同浏览器的差异，整体设计架构如下：
 
 
@@ -27,9 +29,10 @@ TextBus 设计之初就充分考虑了可定制性与扩展性，为了践行这
 
 ----
 
-## 	Markdown编辑器说明
+## \tMarkdown编辑器说明
 
 ### 特点
+
 - 使用简单，克隆项目，按照依赖，即可使用，不需要繁琐的初始化配置。
 - 方便扩展，根据实际需求，支持常见的功能配置，也可根据实际需求进行深度定制。
 - 项目解藕程度高，更换组件不影响项目核心业务。
@@ -55,11 +58,12 @@ TextBus 设计之初就充分考虑了可定制性与扩展性，为了践行这
 因为使用的vite，不能打包成第三方库，我也研究了很久，因为vue3倡导es6的模块化，vite打包后会成为一个es6moudle，所以建议git clone 项目在本项目基础上构建你的web应用。
 
 ### 将组件复制到项目内
+
 1. 将git仓库代码拉到本地
 
-```
+\`\`\`
 git clone https://github.com/wike2019/wike-ui
-```
+\`\`\`
 
 2. 复制src文件夹下内容到你的项目中
 
@@ -72,9 +76,9 @@ git clone https://github.com/wike2019/wike-ui
 
 #### 在页面内使用
 
-```vue
+\`\`\`vue
 <template>
-	<wike_md
+\t<wike_md
             @input="getDate"
             @on-ready="onReady"
             @on-upload-image="onUpladImage"
@@ -90,7 +94,7 @@ git clone https://github.com/wike2019/wike-ui
    default defineComponent({
       name: 'markdown',
       components:{
-			wike_md
+\t\t\twike_md
       },
       setup(){
           function onReady({vm,insertContent,insertImage}) {
@@ -115,9 +119,9 @@ git clone https://github.com/wike2019/wike-ui
               //value 为md编辑器的内容
               //html 为md内容解析成的html
           }
- 		  function getDate($event) {
+ \t\t  function getDate($event) {
               //$event.data 为md编辑器的内容
-  			  //$event.html 为md内容解析成的html
+  \t\t\t  //$event.html 为md内容解析成的html
           }
   
           return {onReady,onSave,onUpladImage,getDate}
@@ -125,54 +129,60 @@ git clone https://github.com/wike2019/wike-ui
   })
     }
 </script>
-```
+\`\`\`
 
 ## API
 
 ### 编辑器基本属性
 
 #### value
-- Type: `String/Number`
-- Default: `''`
 
-编辑器输入的文本，支持通过`v-model`数据双向绑定设置编辑器内容和获取编辑器的值。
+- Type: \`String/Number\`
+- Default: \`''\`
+
+编辑器输入的文本，支持通过\`v-model\`数据双向绑定设置编辑器内容和获取编辑器的值。
 
 #### width
-- Type: `String/Number`
-- Default: `auto`
+
+- Type: \`String/Number\`
+- Default: \`auto\`
 
 编辑器的初始化宽度。
 
 #### height
-- Type: `Number`
-- Default: `600`
+
+- Type: \`Number\`
+- Default: \`600\`
 
 编辑器的初始化高度。
 
 
 #### autoSave
-- Type: `Boolean`
-- Default: `false`
 
-是否开启自动保存，设置为开启时可通过绑定`on-save`事件获取编辑器内的文本内容和渲染过后的html字符串。
+- Type: \`Boolean\`
+- Default: \`false\`
 
-```vue
+是否开启自动保存，设置为开启时可通过绑定\`on-save\`事件获取编辑器内的文本内容和渲染过后的html字符串。
+
+\`\`\`vue
 <wike_md @on-save="onSave"/>
-```
+\`\`\`
 
 
 
 #### interval
-- Type: `Number`
-- Default: `10000`
 
-自动保存间隔时间，单位：`mm`，默认10000mm，需要`autoSave = true`时才有效。
+- Type: \`Number\`
+- Default: \`10000\`
+
+自动保存间隔时间，单位：\`mm\`，默认10000mm，需要\`autoSave = true\`时才有效。
 
 
 
 #### isPreview
-- Type: `Boolean`
-- Default: `false`
+
+- Type: \`Boolean\`
+- Default: \`false\`
 
 是否是预览模式，开启时可作为一个预览组件使用，与预览组件功能一致。
 
@@ -187,12 +197,13 @@ git clone https://github.com/wike2019/wike-ui
 编辑器初始化完成时触发，返回值为Object，包含编辑器实例vm和insertContent,insertImage方法。
 
 #### on-save
-编辑器保存事件，自动保存或者手动保存时触发，支持`ctrl+s`或`command+s`触发保存，返回值类型为`Object`，为md编辑器的内容和为md内容解析成的html。
+
+编辑器保存事件，自动保存或者手动保存时触发，支持\`ctrl+s\`或\`command+s\`触发保存，返回值类型为\`Object\`，为md编辑器的内容和为md内容解析成的html。
 
 
 #### on-upload-image
 
-监听编辑器粘贴图片事件，在编辑区域内手动粘贴图片时触发，可用于支持粘贴插入图片文件，返回`file`文件，上传文件后可结合`on-ready`事件内返回的`insertImage`插入图片。
+监听编辑器粘贴图片事件，在编辑区域内手动粘贴图片时触发，可用于支持粘贴插入图片文件，返回\`file\`文件，上传文件后可结合\`on-ready\`事件内返回的\`insertImage\`插入图片。
 
 
 
@@ -207,7 +218,7 @@ highlight.js原本体积也是较大的，主要原因为，编译时为支持�
 项目内已根据常见的代码语言进行了一次筛选，进行按需引入，可根据自身需求，再次对引用文件进行删减
 
 
-```js
+\`\`\`js
 //文件路径 src/assets/hightlight
 //hljs体积过大，多数为解决代码高亮显示的问题,所以只引入部分语言，如果需要可自行加载
 
@@ -251,85 +262,15 @@ Object.keys(languages).forEach(key => {
 })
 
 export default hljs;
-```
-
-## 	TextBus编辑器说明
+\`\`\`
 
 
-###  使用方式
-
-
-```vue
-<template>
-
- <TextBus   @input="okdata" :config="config" :value="defaultHtml"/>
-
-</template>
-
-<script lang="ts">
- import TextBus from "../components/TextBus/index.vue"
- import { Observable } from 'rxjs';
- import { ref,defineComponent} from 'vue'
- export default defineComponent({
-  name: 'TextBusView',
-  components: {
-   TextBus,
-  },
-  setup(){
-   let defaultHtml='默认内容'
-   let data=ref(defaultHtml)
-
-   const  submit=()=>{
-    console.log(data.value)
-   }
-
-   function   okdata($event) {
-    data.value=$event
-   }
-  
-    //编辑器配置项
-   let config={
-    uploader(type: string): string | Promise<string> | Observable<string> {
-     switch (type) {
-      case 'image':
-       const fileInput = document.createElement('input');
-       fileInput.setAttribute('type', 'file');
-       fileInput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon');
-       fileInput.style.cssText = 'position: absolute; left: -9999px; top: -9999px; opacity: 0';
-       const promise =  new Promise<string>(resolve => {
-        fileInput.addEventListener('change', event => {
-         const form = new FormData();
-         for (const file of event.target.files) {
-          form.append('file', file);
-         }
-         document.body.removeChild(fileInput);
-         resolve("https://textbus.tanboui.com/static/img/qq-group.20ce5d73933bb31ff50cbf15cf9e7950.jpg");
-
-        })
-       })
-       document.body.appendChild(fileInput);
-       fileInput.click();
-       return promise;
-             // case 'video':
-             //   console.log('上传视频');
-             //   break;
-             // case 'audio':
-             //   console.log('上传音频');
-             //   break;
-     }
-    }
-   }
-   return {submit,data,okdata,defaultHtml,config}
-  }
- })
-</script>
-
-```
 
 ## 问题反馈
 
 对于功能上的缺陷、使用方法和希望扩展的功能，可以提 [Issues](https://github.com/wike2019/wike-ui/issues/new) QQ:200569525@qq.com
 
-##  license: `MIT`
+##  license: \`MIT\`
 
-
+`
+export {defaultHtml}

@@ -1,0 +1,22 @@
+stages:
+  - build
+  - deploy
+WebBuild:
+  stage: build
+  script:
+    - docker build -t wk-ui:v1  .
+  after_script:
+    - docker rmi $(docker images -af "dangling=true" -q)
+  tags:
+    - web
+WebDeploy:
+  stage: deploy
+  script:
+    - docker tag  wk-ui:v1  192.168.3.2:5000/wk-ui:v1
+    - docker push 192.168.3.2:5000/wk-ui:v1
+  after_script:
+    - docker rmi 192.168.3.2:5000/wk-ui:v1
+    - docker rmi wk-ui:v1
+  tags:
+    - web
+
