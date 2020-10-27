@@ -144,7 +144,7 @@
     vertical-align: top;
 }
 
-#app{background:#1e1e1e}
+#app{background:#1e1e1e;min-height:1200px}
 .otherinfo{background:#ffffff;margin-top:30px;overflow: hidden}
 .advantage h3{
     text-align: center;
