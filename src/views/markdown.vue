@@ -98,12 +98,14 @@
             wicon
         },
           setup(){
+
+              let  doinsertImage=null
               function onReady({vm,insertContent,insertImage}) {
                 // vm 编辑实例
                 // insertContent 给用户的底层方法,可以往编辑器里插入内容
                 // insertImage 插入图片到编辑器中
-
-                // 请根据需要保持这3个值
+                  doinsertImage=insertImage
+                  // 请根据需要保持这3个值
               }
               function onUpladImage(file) {
                   let formData = new FormData()
@@ -115,6 +117,7 @@
                   //     //取得图片地址插入到编辑器里
                   //     insertImage(data.data.url);
                   // })
+                  doinsertImage("http://csdn.52wike.com/wike.jpeg");
               }
               function onSave({value,html}) {
                   //value 为md编辑器的内容

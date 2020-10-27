@@ -47,7 +47,7 @@
 
 
   <div>
-      <a-modal v-model:visible="sqlShow" title="生成sql文档" @ok="sqlPrase" okText="生成sql" zIndex="99999999">
+      <a-modal v-model:visible="sqlShow" title="生成sql文档" @ok="sqlPrase" okText="生成sql" :zIndex="9999998">
           <div class="common_dialog">
               <h4>温馨提示：将数据库创建脚本复制到文本框，自动解析生成文档.</h4>
               <h5>示例sql</h5>
@@ -69,7 +69,7 @@
               </div>
           </div>
       </a-modal>
-      <a-modal v-model:visible="tableShow" title="生成表格" @ok="tablePrase" okText="生成表格" width="1200px" zIndex="99999999">
+      <a-modal v-model:visible="tableShow" title="生成表格" @ok="tablePrase" okText="生成表格" width="1200px" :zIndex="9999998">
           <div >
               <div class="table_dialog_item">
                           <span style="margin-right:20px;font-weight: bold">设置单元格数</span>
@@ -125,23 +125,23 @@
           </div>
       </a-modal>
 
-      <a-modal v-model:visible="codeShow" title="添加代码块" @ok="codePrase" okText="添加代码块" width="800px" zIndex="99999999">
+      <a-modal v-model:visible="codeShow" title="添加代码块" @ok="codePrase" okText="添加代码块" width="800px" :zIndex="9999998">
           <h4 class="editormd-code-toolbar">
               <span style="margin-right:20px">代码语言</span>
               <a-select
                       v-model:value="code_dialog_lang"
-                      style="min-width:140px"
-              >
-                  <a-select-option :value="item" v-for="item in lang_type">{{item}}</a-select-option>
-
+                      style="min-width:140px;">
+                  <a-select-option :value="item" v-for="item,index in lang_type" :key="index">{{item}}</a-select-option>
               </a-select>
+
           </h4>
+
           <div   class="markdown-content">
               <div  ref="codeEditorRef"  class="codemirror" style="height:420px;border-radius:10px" ></div>
           </div>
       </a-modal>
 
-      <a-modal v-model:visible="linkShow" title="生成超链接" @ok="linkPrase" okText="添加超链接" zIndex="99999999" >
+      <a-modal v-model:visible="linkShow" title="生成超链接" @ok="linkPrase" okText="添加超链接" :zIndex="9999998" >
           <div   class="href_dialog_item">
               <label>链接地址</label>
               <a-input v-model:value="href_dialog_href" type="text"  placeholder="请输入链接地址"  />
@@ -230,7 +230,7 @@
       let codeData=ref('')
       let timeId:any=null
       let code_dialog_lang=ref('other')
-      let lang_type=["other","actionscript", "bash", "css", "c", "cpp", "csharp", "coffeescript", "d", "dart", "delphi", "erlang", "go", "groovy", "html", "java", "json", "javascript", "lua", "less", "markdown", "objective-c", "php", "perl", "python", "r", "rst", "ruby", "sql", "sass", "shell", "scala", "swift", "vb", "xml", "yaml"]
+      let lang_type=["other", "bash", "css", "c", "cpp", "csharp",  "dart", "delphi", "erlang", "go", "groovy", "html", "java", "json", "javascript", "lua", "less", "markdown", "objective-c", "php", "perl", "python", "r", "rst", "ruby", "sql", "sass", "shell", "scala", "swift", "vb", "xml", "yaml"]
       let data = reactive({
         scrolling:true,
         fullscreen:false,
@@ -270,7 +270,6 @@
         setEditorValue(value,editor)
       });
       function  command($event){
-          console.log($event.action)
        editorCommit($event.action,editor,lastdata,$event.level)
       }
       const editorPreview = computed(() => {
