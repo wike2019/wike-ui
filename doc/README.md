@@ -3,7 +3,7 @@
 
 
 ## Markdown编辑器简介
-一款使用marked和highlight.js,codemirror,inversify,vue3,font-awesome,ant-design-vue开发的markdown编辑器，除常见markdown语法外，支持快捷输入、图片粘贴、全屏编辑、预览等功能。
+一款使用marked和highlight.js,ace,inversify,vue3,font-awesome,ant-design-vue开发的markdown编辑器，除常见markdown语法外，支持快捷输入、图片粘贴、全屏编辑、预览等功能。
 
 使用起来简单方便，只需几行代码，即可在你的页面上引入一个markdown编辑器,完全适配vue3，支持语法高亮。同时项目完全基于ddd的开发思想，解构了视图层和领域层。
 
@@ -253,78 +253,7 @@ Object.keys(languages).forEach(key => {
 export default hljs;
 ```
 
-## 	TextBus编辑器说明
 
-
-###  使用方式
-
-
-```vue
-<template>
-
- <TextBus   @input="okdata" :config="config" :value="defaultHtml"/>
-
-</template>
-
-<script lang="ts">
- import TextBus from "../components/TextBus/index.vue"
- import { Observable } from 'rxjs';
- import { ref,defineComponent} from 'vue'
- export default defineComponent({
-  name: 'TextBusView',
-  components: {
-   TextBus,
-  },
-  setup(){
-   let defaultHtml='默认内容'
-   let data=ref(defaultHtml)
-
-   const  submit=()=>{
-    console.log(data.value)
-   }
-
-   function   okdata($event) {
-    data.value=$event
-   }
-  
-    //编辑器配置项
-   let config={
-    uploader(type: string): string | Promise<string> | Observable<string> {
-     switch (type) {
-      case 'image':
-       const fileInput = document.createElement('input');
-       fileInput.setAttribute('type', 'file');
-       fileInput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon');
-       fileInput.style.cssText = 'position: absolute; left: -9999px; top: -9999px; opacity: 0';
-       const promise =  new Promise<string>(resolve => {
-        fileInput.addEventListener('change', event => {
-         const form = new FormData();
-         for (const file of event.target.files) {
-          form.append('file', file);
-         }
-         document.body.removeChild(fileInput);
-         resolve("https://textbus.tanboui.com/static/img/qq-group.20ce5d73933bb31ff50cbf15cf9e7950.jpg");
-
-        })
-       })
-       document.body.appendChild(fileInput);
-       fileInput.click();
-       return promise;
-             // case 'video':
-             //   console.log('上传视频');
-             //   break;
-             // case 'audio':
-             //   console.log('上传音频');
-             //   break;
-     }
-    }
-   }
-   return {submit,data,okdata,defaultHtml,config}
-  }
- })
-</script>
-
-```
 
 ## 问题反馈
 

@@ -1,3 +1,7 @@
+### 2.1.0
+
+- 集成ace编辑器替代codemirror
+
 ### 2.0.0
 
 - 基于vue3实现markdown编辑器
