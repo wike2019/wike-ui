@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts">
-
+    import { message } from 'ant-design-vue';
     import WIcon from  "../icon/index.vue"
     import { defineComponent,onMounted ,ref,toRefs,computed} from 'vue'
     import {data,title,other,alertdata,attr} from "./config"
@@ -91,7 +91,7 @@
                     return;
                 }
                 if(!/^md$/ig.test(file.name.split(".").pop())){
-                    alert("文件格式不对")
+                    message.error("文件格式不对")
                     return;
                 }
                 const reader = new FileReader();
@@ -107,7 +107,7 @@
                 }
             }
             function onSupport() {
-                alert("内部功能,暂不对外开发")
+                message.error("内部功能,暂不对外开发")
             }
             function selectFileMd() {
                 mdInputRef.value.click()
@@ -132,7 +132,7 @@
                 ctx.emit('attrChange',$event)
             }
             function  alertShow($event) {
-                console.log($event)
+
                     ctx.emit('alertChange',$event)
 
             }

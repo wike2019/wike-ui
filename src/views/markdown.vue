@@ -13,9 +13,9 @@
         <div  class="quick-links">
             <p  class="ad">
                 <strong >基于vue3的新一代markdown文本编辑器</strong>
-                <br > 架构清晰,合理易于扩展</p>
-            <a  class="ui-btn ui-btn-success ui-btn-lg"  target="_blank" href="">开 始</a>
-            <a class="ui-btn ui-btn-dark ui-btn-lg"  target="_blank" href="">文档中心</a>
+                <br > 架构清晰合理,易于扩展</p>
+            <a  class="ui-btn ui-btn-success ui-btn-lg"  target="_blank" href="https://github.com/wike2019/wike-ui/blob/master/doc/demo.md">开 始</a>
+            <a class="ui-btn ui-btn-dark ui-btn-lg"  target="_blank" href="https://github.com/wike2019/wike-ui/tree/master/doc">文档中心</a>
         </div>
         <div  class="advantage">
             <div  class="ui-container">

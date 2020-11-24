@@ -23,9 +23,9 @@ TextBus 设计之初就充分考虑了可定制性与扩展性，为了践行这
 
 ![image](https://csdn.52wike.com/2020-10-27/4f5bb267-8b71-45a8-bf28-5288212af706.png)
 
-## 项目地址
 
-[在线预览](https://wikecloud.com/ui/#/markdown)
+
+----
 
 ## 	Markdown编辑器说明
 
@@ -253,7 +253,78 @@ Object.keys(languages).forEach(key => {
 export default hljs;
 ```
 
+## 	TextBus编辑器说明
 
+
+###  使用方式
+
+
+```vue
+<template>
+
+ <TextBus   @input="okdata" :config="config" :value="defaultHtml"/>
+
+</template>
+
+<script lang="ts">
+ import TextBus from "../components/TextBus/index.vue"
+ import { Observable } from 'rxjs';
+ import { ref,defineComponent} from 'vue'
+ export default defineComponent({
+  name: 'TextBusView',
+  components: {
+   TextBus,
+  },
+  setup(){
+   let defaultHtml='默认内容'
+   let data=ref(defaultHtml)
+
+   const  submit=()=>{
+    console.log(data.value)
+   }
+
+   function   okdata($event) {
+    data.value=$event
+   }
+  
+    //编辑器配置项
+   let config={
+    uploader(type: string): string | Promise<string> | Observable<string> {
+     switch (type) {
+      case 'image':
+       const fileInput = document.createElement('input');
+       fileInput.setAttribute('type', 'file');
+       fileInput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon');
+       fileInput.style.cssText = 'position: absolute; left: -9999px; top: -9999px; opacity: 0';
+       const promise =  new Promise<string>(resolve => {
+        fileInput.addEventListener('change', event => {
+         const form = new FormData();
+         for (const file of event.target.files) {
+          form.append('file', file);
+         }
+         document.body.removeChild(fileInput);
+         resolve("https://textbus.tanboui.com/static/img/qq-group.20ce5d73933bb31ff50cbf15cf9e7950.jpg");
+
+        })
+       })
+       document.body.appendChild(fileInput);
+       fileInput.click();
+       return promise;
+             // case 'video':
+             //   console.log('上传视频');
+             //   break;
+             // case 'audio':
+             //   console.log('上传音频');
+             //   break;
+     }
+    }
+   }
+   return {submit,data,okdata,defaultHtml,config}
+  }
+ })
+</script>
+
+```
 
 ## 问题反馈
 

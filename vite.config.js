@@ -1,13 +1,14 @@
-import path from 'path'
+import path from 'path';
 module.exports = {
-    // 导入别名
+    // 导入文件夹别名
     alias: {
         '/@/': path.resolve(__dirname, './src'),
+        '/@views/': path.resolve(__dirname, './src/views'),
+        '/@components/': path.resolve(__dirname, './src/components'),
+        '/@core/': path.resolve(__dirname, './src/core'),
     },
     // 配置Dep优化行为
     optimizeDeps: {
-        include: ["codemirror",'marked']
+        include: ['@ant-design-vue/use']
     },
-    // 为开发服务器配置自定义代理规则。
-
 }
